@@ -1,6 +1,28 @@
+const express = require("express");
+const app = express();
+const port = 4000;
+const { query } = require("./database");
+require("dotenv").config();
 const { Recipe } = require('./models');
 
-
+app.use((req, res, next) => {
+    console.log(`Request: ${req.method} ${req.originalUrl}`);
+    res.on("finish", () => {
+      console.log(`Response Status: ${res.statusCode}`);
+    });
+    next();
+  });
+  app.use(express.json());
+  
+  function getNextIdFromCollection(collection) {
+    if (collection.length === 0) return 1;
+    const lastRecord = collection[collection.length - 1];
+    return lastRecord.id + 1;
+  }
+  
+  app.get("/", (req, res) => {
+    res.send("Welcome to the Recipe API!!!!");
+  });
 
 
 
@@ -84,4 +106,10 @@ app.delete("/recipes/:id", async (req, res) => {
       console.error(err);
       res.status(500).send({ message: err.message });
     }
+  });
+
+
+
+  app.listen(port, () => {
+    console.log(`Server is running at http://localhost:${port}`);
   });
