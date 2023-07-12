@@ -47,3 +47,41 @@ app.post("/recipes", async (req, res) => {
       res.status(500).send({ message: err.message });
     }
   });
+
+
+  // Update a specific recipe
+app.patch("/recipes/:id", async (req, res) => {
+    const recipeId = parseInt(req.params.id, 10);
+  
+    try {
+      const [numberOfAffectedRows, affectedRows] = await Recipe.update(req.body, { where: { id: recipeId }, returning: true });
+  
+      if (numberOfAffectedRows > 0) {
+        res.status(200).json(affectedRows[0]);
+      } else {
+        res.status(404).send({ message: "Recipe not found" });
+      }
+    } catch (err) {
+      res.status(500).send({ message: err.message });
+      console.error(err);
+    }
+  });
+
+
+  // Delete a specific recipe
+app.delete("/recipes/:id", async (req, res) => {
+    const recipeId = parseInt(req.params.id, 10);
+  
+    try {
+      const deleteOp = await Recipe.destroy({ where: { id: recipeId } });
+  
+      if (deleteOp > 0) {
+        res.status(200).send({ message: "Recipe deleted successfully" });
+      } else {
+        res.status(404).send({ message: "Recipe not found" });
+      }
+    } catch (err) {
+      console.error(err);
+      res.status(500).send({ message: err.message });
+    }
+  });
