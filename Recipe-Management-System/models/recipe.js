@@ -12,21 +12,62 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Recipe.init({
+
     title: {
      type: DataTypes.STRING,
      allowNull: false,
+     validate: {
+      notEmpty: {
+        msg: 'Title is required.',
+      },
+      lessThanThreeChar(value) {
+        if (value.length<3) {
+          throw new Error('title cannot be less than 3 characters.');
+        }
+      }
+      }
     },
     description: {
       type:DataTypes.TEXT,
       allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'Description is required.',
+        },
+        greaterThanFiveHundredChar(value) {
+          if (value.length>500) {
+            throw new Error('desription cannot be more than 500 characters.');
+          }
+        }
+        }
     },
     ingredients: {
       type:DataTypes.TEXT,
       allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'Description is required.',
+        },
+        greaterThanOneThousandChar(value) {
+          if (value.length>1000) {
+            throw new Error('Ingredients cannot be more than 1000 characters.');
+          }
+        }
+        }
     },
     instructions: {
       type:DataTypes.TEXT,
       allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'Instructions is required.',
+        },
+        greaterThanFiveThousandsChar(value) {
+          if (value.length>5000) {
+            throw new Error('Instructions cannot be more than 5000 characters.');
+          }
+        }
+        }
     },
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE
