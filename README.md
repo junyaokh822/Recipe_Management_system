@@ -42,6 +42,12 @@ Add a start script in your package.json file:
 
 Install PostgreSQL or any other supported database management system.
 
+To install the `pg` library, which allows your Node.js application to interact with PostgreSQL, run the following command:
+
+```bash
+npm install pg
+```
+
 ### Install Sequelize
 
 ```bash
