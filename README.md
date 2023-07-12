@@ -61,7 +61,7 @@ npm install --save sequelize sequelize-cli pg-hstore
 3. Install the dependencies by running the following command:
 
 ```bash
-npm install
+git clone https://github.com/junyaokh822/Recipe_Management_system.git
 ```
 
 ### Configure the Database Connection
