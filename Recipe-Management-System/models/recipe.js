@@ -1,7 +1,5 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const {Model} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Recipe extends Model {
     /**
@@ -14,15 +12,29 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Recipe.init({
-    title: DataTypes.STRING,
-    description: DataTypes.TEXT,
-    ingredients: DataTypes.TEXT,
-    instructions: DataTypes.TEXT,
+    title: {
+     type: DataTypes.STRING,
+     allowNull: false,
+    },
+    description: {
+      type:DataTypes.TEXT,
+      allowNull: false,
+    },
+    ingredients: {
+      type:DataTypes.TEXT,
+      allowNull: false,
+    },
+    instructions: {
+      type:DataTypes.TEXT,
+      allowNull: false,
+    },
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'Recipe',
+    tableName: 'recipes',
+    underscored: true 
   });
   return Recipe;
 };
