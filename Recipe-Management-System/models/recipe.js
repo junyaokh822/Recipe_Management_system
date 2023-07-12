@@ -69,8 +69,28 @@ module.exports = (sequelize, DataTypes) => {
         }
         }
     },
-    createdAt: DataTypes.DATE,
-    updatedAt: DataTypes.DATE
+    createdAt: {
+      type:DataTypes.DATE,
+      allowNull:true,
+      validate: {
+        isPast: function(value) {
+          if (value && this.updatedAt && value > this.updatedAt) {
+            throw new Error("Created date cannot be after the updated date.");
+          }
+        },
+      },
+    },
+    updatedAt: {
+      type:DataTypes.DATE,
+      allowNull:true,
+      validate: {
+        isBefore: function(value) {
+          if (value && this.updatedAt && value < this.createdAt) {
+            throw new Error("Updated date cannot be before the created date.");
+          }
+        },
+      },
+    }
   }, {
     sequelize,
     modelName: 'Recipe',
